@@ -8,9 +8,9 @@ from US_visa.logger import logging
 from US_visa.exception import USVisaException
 
 
-logging.info("Welcome to Logger file..!!")
+logging.info("Welcome to custom Logger file..!!")
 
-
+'''check excpetion'''
 try:
     a= 1/0
 except Exception as e:
