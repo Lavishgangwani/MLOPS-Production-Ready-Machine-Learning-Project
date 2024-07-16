@@ -21,7 +21,7 @@ def get_requirements(filepath:str)->List[str]:
 
 
 setup(
-    name="US-Visa-Approval-Prediction-Project",
+    name="US-Visa-Project",
     version="0.0.1",
     author="Lavish",
     author_email="Lavishgangwani22@gmail.com",
