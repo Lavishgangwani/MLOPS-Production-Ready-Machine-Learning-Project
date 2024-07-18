@@ -2,6 +2,8 @@ from setuptools import find_packages, setup
 from typing import List
 
 
+'''create function to integrate us_visa as an local package'''
+HYPEN_E_DOT = '-e .'
 def get_requirements(filepath:str)->List[str]:
     """
     This Function is responsible for handling packages requirements
@@ -11,8 +13,8 @@ def get_requirements(filepath:str)->List[str]:
         requirements = file_obj.readlines()
         requirements = [i.replace("/n","") for i in requirements]
 
-        if "-e ." in requirements:
-            requirements.remove("-e .")
+        if HYPEN_E_DOT in requirements:
+            requirements.remove(HYPEN_E_DOT)
 
     return requirements
 
