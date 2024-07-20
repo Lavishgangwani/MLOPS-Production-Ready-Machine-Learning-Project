@@ -11,14 +11,30 @@ from US_visa.entity.artifact_entity import DataIngestionArtifact
 from US_visa.components.data_ingestion import DataIngestion
 
 
-
-
 class TrainPipeline:
+    """
+    TrainPipeline class orchestrates the training pipeline workflow.
+
+    Attributes:
+        data_ingestion_config (DataIngestionConfig): Configuration for data ingestion.
+    """
+
     def __init__(self):
+        """
+        Initializes the TrainPipeline with data ingestion configuration.
+        """
         self.data_ingestion_config = DataIngestionConfig()
 
+    def start_data_ingestion(self) -> DataIngestionArtifact:
+        """
+        Starts the data ingestion process and fetches the data from MongoDB.
 
-    def start_data_ingestion(self)-> DataIngestionArtifact:
+        Returns:
+            DataIngestionArtifact: Contains paths to the ingested training and testing datasets.
+        
+        Raises:
+            USVisaException: If any error occurs during data ingestion.
+        """
         try:
             logging.info("Entered the start_data_ingestion method of TrainPipeline class")
             logging.info("Getting the data from mongodb")
@@ -27,15 +43,19 @@ class TrainPipeline:
             logging.info("Got the train_set and test_set from mongodb")
             logging.info("Exited the start_data_ingestion method of TrainPipeline class")
             return data_ingestion_artifact
-        
+
         except Exception as e:
-            logging.error(f"Error occured during start_data_ingestion {e}")
-            raise USVisaException(e,sys)
-        
-    
-    def run_pipeline(self, )-> None:
+            logging.error(f"Error occurred during start_data_ingestion {e}")
+            raise USVisaException(e, sys)
+
+    def run_pipeline(self) -> None:
+        """
+        Executes the entire training pipeline.
+
+        Raises:
+            USVisaException: If any error occurs during the pipeline execution.
+        """
         try:
             data_ingestion_artifact = self.start_data_ingestion()
         except Exception as e:
-            raise USVisaException(e,sys) 
-
+            raise USVisaException(e, sys)
