@@ -1,6 +1,7 @@
 ## -*- Code : Utf -*-
 
-from US_visa.constants import *
-import os
+from US_visa.pipeline.train_pipeline import TrainPipeline
 
-print(os.getenv("MONGODB_URL"))
+
+obj = TrainPipeline
+obj.run_pipeline()
