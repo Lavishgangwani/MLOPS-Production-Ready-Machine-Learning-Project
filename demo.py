@@ -1,5 +1,3 @@
-## -*- Code : Utf -*-
-
 from US_visa.pipeline.train_pipeline import TrainPipeline
 
 
