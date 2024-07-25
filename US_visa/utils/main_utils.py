@@ -130,7 +130,7 @@ def load_numpy_array_data(filepath:str)-> np.array:
 
 
 
-def save_numpy_array_data(filepath:str, arr:np.array)-> None:
+def save_numpy_array_data(filepath:str, array:np.array):
     """
     Save an Numpy array to a file
 
@@ -144,7 +144,7 @@ def save_numpy_array_data(filepath:str, arr:np.array)-> None:
         os.makedirs(dir_path, exist_ok=True)
         with open(filepath, mode='wb') as file:
             logging.info(f"Saving Numpy array to {filepath}")
-            np.save(arr, file)
+            np.save(file, array)
 
     except Exception as e:
         logging.error(f"Saving Array Error: {e}")
