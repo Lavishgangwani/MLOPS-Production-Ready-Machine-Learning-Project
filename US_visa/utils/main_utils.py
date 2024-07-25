@@ -55,7 +55,7 @@ def write_yaml_file(filepath:str, content:object, replace:bool=False)->None:
                 os.remove(filepath)
         os.makedirs(os.path.dirname(filepath),exist_ok=True)
         with open(filepath, mode='w') as file_obj:
-            logging.info(f"Writing YAML file in {filepath}")
+            logging.info(f"Writing YAML file in : {filepath}")
             yaml.dump(content, file_obj)
         
     except Exception as e:

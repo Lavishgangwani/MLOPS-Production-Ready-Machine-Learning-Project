@@ -55,6 +55,8 @@ class DataValidation:
             dataframe_columns = df.columns
             missing_numerical_columns = []
             missing_categorical_columns = []
+
+            "Validate Numerical Columns"
             for column in self._schema_config["numerical_columns"]:
                 if column not in dataframe_columns:
                     missing_numerical_columns.append(column)
@@ -62,7 +64,7 @@ class DataValidation:
             if len(missing_numerical_columns)>0:
                 logging.info(f"Missing numerical column: {missing_numerical_columns}")
 
-
+            "Validate Categorical Columns"
             for column in self._schema_config["categorical_columns"]:
                 if column not in dataframe_columns:
                     missing_categorical_columns.append(column)
@@ -123,22 +125,27 @@ class DataValidation:
             train_df, test_df = (DataValidation.read_data(file_path=self.data_ingestion_artifact.trained_file_path),
                                  DataValidation.read_data(file_path=self.data_ingestion_artifact.test_file_path))
 
+            "Validate all columns Train Set"
             status = self.validate_number_of_columns(dataframe=train_df)
             logging.info(f"All required columns present in training dataframe: {status}")
             if not status:
                 validation_error_msg += f"Columns are missing in training dataframe."
+            
+            "Validate all columns Test Set"
             status = self.validate_number_of_columns(dataframe=test_df)
-
             logging.info(f"All required columns present in testing dataframe: {status}")
             if not status:
                 validation_error_msg += f"Columns are missing in test dataframe."
 
+            "Check all columns exists in df from SCHEMA Train Set"
             status = self.is_column_exist(df=train_df)
-
+            logging.info(f"All required columns exists in train dataframe: {status}")
             if not status:
                 validation_error_msg += f"Columns are missing in training dataframe."
+            
+            "Check all columns exists in df from SCHEMA Test Set"
             status = self.is_column_exist(df=test_df)
-
+            logging.info(f"All required columns exists in test dataframe: {status}")
             if not status:
                 validation_error_msg += f"columns are missing in test dataframe."
 

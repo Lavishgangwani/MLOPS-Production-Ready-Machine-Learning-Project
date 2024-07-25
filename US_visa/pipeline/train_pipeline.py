@@ -28,7 +28,7 @@ class TrainPipeline:
         Initializes the TrainPipeline with data ingestion configuration.
         """
         self.data_ingestion_config = DataIngestionConfig()
-        self.data_validation_config = DataIngestionConfig()
+        self.data_validation_config = DataValidationConfig()
 
 
     def start_data_ingestion(self) -> DataIngestionArtifact:
