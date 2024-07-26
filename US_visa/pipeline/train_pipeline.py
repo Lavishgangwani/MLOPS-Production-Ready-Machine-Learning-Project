@@ -5,17 +5,22 @@ import sys
 from US_visa.logger import logging
 from US_visa.exception import USVisaException
 
-from US_visa.entity.config_entity import (DataIngestionConfig,
-                                          DataValidationConfig,
-                                          DataTransformationConfig)
-
-from US_visa.entity.artifact_entity import (DataIngestionArtifact,
-                                            DataValidationArtifact,
-                                            DataTransformationArtifact)
 
 from US_visa.components.data_ingestion import DataIngestion
 from US_visa.components.data_validation import DataValidation
 from US_visa.components.data_transformation import DataTransformation
+from US_visa.components.model_trainer import ModelTrainer
+
+from US_visa.entity.config_entity import (DataIngestionConfig,
+                                          DataValidationConfig,
+                                          DataTransformationConfig,
+                                          ModelTrainerConfig)
+
+from US_visa.entity.artifact_entity import (DataIngestionArtifact,
+                                            DataValidationArtifact,
+                                            DataTransformationArtifact,
+                                            ModelTrainerArtifact)
+
 
 
 class TrainPipeline:
@@ -30,6 +35,8 @@ class TrainPipeline:
         Configuration for data validation.
     data_transformation_config : DataTransformationConfig
         Configuration for data transformation.
+    model_trainer_config : ModelTrainerConfig
+        Configuration for Model Trainer.
     """
 
     def __init__(self):
@@ -39,6 +46,7 @@ class TrainPipeline:
         self.data_ingestion_config = DataIngestionConfig()
         self.data_validation_config = DataValidationConfig()
         self.data_transformation_config = DataTransformationConfig()
+        self.model_trainer_config = ModelTrainerConfig()
 
     def start_data_ingestion(self) -> DataIngestionArtifact:
         """
@@ -136,6 +144,37 @@ class TrainPipeline:
         except Exception as e:
             logging.error(f"Error During start data transformation: {e}")
             raise USVisaException(e, sys) from e
+        
+
+    def start_model_training(self, data_transformation_artifact:DataTransformationArtifact) -> ModelTrainerArtifact:
+        """
+        Initiates the model training process using the provided data transformation artifact.
+
+        Parameters
+        ----------
+        data_transformation_artifact : DataTransformationArtifact
+            An artifact containing paths to the transformed training and testing datasets.
+
+        Returns
+        -------
+        ModelTrainerArtifact
+            An artifact containing the trained model and its metrics.
+
+        Raises
+        ------
+        USVisaException
+            If an error occurs during the model training process.
+        """
+        try:
+            model_trainer = ModelTrainer(data_transformation_artifact=data_transformation_artifact,
+                                         model_trainer_config=self.model_trainer_config)
+            
+            model_trainer_artifact = model_trainer.initiate_model_trainer()
+            return model_trainer_artifact
+        
+        except Exception as e:
+            logging.error(f"Error During start model training: {e}")
+            raise USVisaException(e, sys) from e
 
     def run_pipeline(self) -> None:
         """
@@ -151,6 +190,7 @@ class TrainPipeline:
             data_validation_artifact = self.start_data_validation(data_ingestion_artifact=data_ingestion_artifact)
             data_transformation_artifact = self.start_data_transformation(data_ingestion_artifact=data_ingestion_artifact,
                                                                           data_validation_artifact=data_validation_artifact)
+            model_trainer_artifact = self.start_model_training(data_transformation_artifact=data_transformation_artifact)
 
         except Exception as e:
             raise USVisaException(e, sys)

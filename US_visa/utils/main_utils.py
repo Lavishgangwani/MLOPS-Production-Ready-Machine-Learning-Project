@@ -78,7 +78,8 @@ def load_object(filepath:str)-> object:
     try:
         with open(filepath, "rb") as file_obj:
             logging.info(f"Loading object from {filepath}")
-            return dill.load(file_obj)
+            obj = dill.load(file_obj)
+            return obj
     
     except Exception as e:
         logging.error(f"Error loading object: {e}")
@@ -121,7 +122,8 @@ def load_numpy_array_data(filepath:str)-> np.array:
     try:
         with open(filepath, mode='rb') as file:
             logging.info(f"Loading the array file {filepath}")
-            return np.load(file)
+            loaded = np.load(file=file,allow_pickle=True)
+            return loaded
         
     except Exception as e:
         logging.error(f"Error loading object: {e}")
