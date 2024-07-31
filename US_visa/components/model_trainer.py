@@ -93,12 +93,11 @@ class ModelTrainer:
 
             accuracy_score_ = accuracy_score(y_test, y_pred)
             f1_score_ = f1_score(y_test, y_pred)
-            recall_score_ = recall_score(y_test, y_pred)
-            precision_score_ = precision_score(y_test, y_pred)
-
+            precision = precision_score(y_test, y_pred)  
+            recall = recall_score(y_test, y_pred)
             metric_artifacts = ClassificationMetricsArtifact(f1_score=f1_score_,
-                                                             recall_score=recall_score_,
-                                                             precision_score=precision_score_)
+                                                             precision_score=precision,
+                                                             recall_score=recall)
 
             return best_model_detail, metric_artifacts
 

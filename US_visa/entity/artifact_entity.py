@@ -31,9 +31,8 @@ class DataTransformationArtifact:
 @dataclass
 class ClassificationMetricsArtifact:
     f1_score :float
-    recall_score:float
     precision_score :float
-
+    recall_score:float
 
 
 @dataclass

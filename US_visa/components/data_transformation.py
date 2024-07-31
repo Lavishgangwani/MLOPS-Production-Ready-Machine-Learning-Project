@@ -174,6 +174,11 @@ class DataTransformation:
                 drop_cols = self._schema_config['drop_columns']
                 logging.info("Drop the columns in drop_cols of Training dataset")
 
+                input_features_train_df = drop_columns(df=input_features_train_df, cols = drop_cols)
+                
+                target_feature_train_df = target_feature_train_df.replace(TargetValueMapping()._asdict())
+                logging.info("Target Variable Mapping is Done..!!")
+
                 input_features_test_df = test_df.drop(columns=[TARGET_COLUMN], axis=1)
                 target_feature_test_df = test_df[TARGET_COLUMN]
 
